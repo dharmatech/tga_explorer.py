@@ -34,8 +34,11 @@ st.write('Deposits and Withdrawals of Operating Cash (TGA)')
 
 metric = st.sidebar.selectbox(label='Metrics', options=['transaction_today_amt', 'transaction_mtd_amt', 'transaction_fytd_amt'], index=2)
 
+if st.sidebar.checkbox('Filter', value=False):
 
-
+    categories = st.sidebar.multiselect(label='transaction_catg', options=df['transaction_catg'].unique())
+    
+    df = df[df['transaction_catg'].isin(categories)]
 
 if st.sidebar.checkbox('Deposits', value=True) == False:
     df = df.query('transaction_type != "Deposits"')
@@ -69,11 +72,6 @@ df = df.query(f'abs > {min_amount}')
 
 st.sidebar.write(f'Total records: {len(df):,}')
 
-if st.sidebar.checkbox('Filter', value=False):
-
-    categories = st.sidebar.multiselect(label='transaction_catg', options=df['transaction_catg'].unique())
-    
-    df = df[df['transaction_catg'].isin(categories)]
 
 # df['transaction_fytd_amt'] = df['transaction_fytd_amt'] * 1_000_000
 
