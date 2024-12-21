@@ -56,62 +56,27 @@ st.sidebar.write(f'Filtered records: {len(df):,}')
 #     'record_calendar_year', 'record_calendar_month', 'record_calendar_day', 'src_line_nbr', 'record_fiscal_year', 'record_fiscal_quarter',
 #     'table_nbr', 'table_nm']).tail(30)
 
-
-
-
-
-
-
-
-# metric = st.selectbox(label='Metrics', options=['transaction_today_amt', 'transaction_mtd_amt', 'transaction_fytd_amt'], index=2)
-
-# metric = st.sidebar.selectbox(label='Metrics', options=['transaction_today_amt', 'transaction_mtd_amt', 'transaction_fytd_amt'], index=2)
-
-# if st.sidebar.checkbox('Filter', value=False):
-
-#     categories = st.sidebar.multiselect(label='transaction_catg', options=df['transaction_catg'].unique())
-    
-#     df = df[df['transaction_catg'].isin(categories)]
-
-df_deposits = df.query('transaction_type == "Deposits"')
+df_deposits    = df.query('transaction_type == "Deposits"')
 df_withdrawals = df.query('transaction_type == "Withdrawals"')
 
 st.sidebar.write(f'Deposits: {len(df_deposits):,}')
 st.sidebar.write(f'Withdrawals: {len(df_withdrawals):,}')
 
-# larger_transaction_type = 'Deposits' if len(df_deposits) > len(df_withdrawals) else 'Withdrawals'
-
 larger_transaction_type = 'Deposits' if len(df_deposits) > len(df_withdrawals) else 'Withdrawals'
 
 selected_transaction_type = st.sidebar.radio(label='transaction_type', options=['Deposits', 'Withdrawals'], index=['Deposits', 'Withdrawals'].index(larger_transaction_type))
 
-# ['Deposits', 'Withdrawals'].index('Deposits')
-# ['Deposits', 'Withdrawals'].index('Withdrawals')
-
 df = df.query(f'transaction_type == "{selected_transaction_type}"')
 
-# if st.sidebar.checkbox('Deposits', value=True) == False:
-#     df = df.query('transaction_type != "Deposits"')
-
-# if st.sidebar.checkbox('Withdrawals', value=True) == False:
-#     df = df.query('transaction_type != "Withdrawals"')
+df['transaction_fytd_amt'] = df['transaction_fytd_amt'] * 1_000_000
+df['transaction_mtd_amt']  = df['transaction_mtd_amt']  * 1_000_000
 
 # if st.sidebar.checkbox('Public debt', value=False) == False:
 #     df = df.query('not transaction_catg.str.contains("public debt", case=False)', engine='python')
 
-
-
-
-
 amount_type = st.sidebar.selectbox('amount_type', ['transaction_mtd_amt', 'transaction_fytd_amt'])
 
-# amount_type = 'transaction_fytd_amt'
-
 tmp = df
-
-# tmp['transaction_catg'].unique()
-
-# tmp['transaction_type'].unique()
 
 tbl = tmp.groupby('record_date')[amount_type].sum().reset_index()
 
@@ -129,46 +94,15 @@ fig = px.line(melted, x='record_date_', y=amount_type, color='year', title=f'TGA
 
 fig.update_xaxes(tickformat='%b %d')
 
-st.plotly_chart(fig)
+st.plotly_chart(fig, use_container_width=True)
 
 
-
-
-
-# year = st.sidebar.number_input('Year start', min_value=1900, value=2022, step=1)
 
 # df.loc[df['transaction_type'] == 'Withdrawals', 'transaction_today_amt'] = -df['transaction_today_amt']
 # df.loc[df['transaction_type'] == 'Withdrawals', 'transaction_mtd_amt']   = -df['transaction_mtd_amt']
 # df.loc[df['transaction_type'] == 'Withdrawals', 'transaction_fytd_amt']  = -df['transaction_fytd_amt']
 
-# df = df.query(f'record_date >= "{year}-10-01"')
-
-# df['abs'] = df[metric].abs()
-
-# if metric == 'transaction_today_amt':
-#     default_min_amount = 1000
-# elif metric == 'transaction_mtd_amt':
-#     default_min_amount = 10000    
-# elif metric == 'transaction_fytd_amt':
-#     default_min_amount = 100000
-
-# min_amount = st.sidebar.number_input('Minimum amount', min_value=0, value=default_min_amount, step=1000)
-
-# df = df.query(f'abs > {min_amount}')
-
-st.sidebar.write(f'Total records: {len(df):,}')
-
-
 # df['transaction_fytd_amt'] = df['transaction_fytd_amt'] * 1_000_000
-
-# fig = px.bar(
-#     df, 
-#     x='record_date', 
-#     y=metric, 
-#     color='transaction_catg', 
-#     # title='Stacked Bar Chart', 
-#     labels={metric:'Transaction Amount', 'record_date':'Record Date', 'transaction_catg':'Transaction Category'},
-#     barmode='relative')
 
 # st.plotly_chart(fig, use_container_width=True)
 
