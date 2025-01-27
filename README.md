@@ -21,3 +21,6 @@ Discussion at the streamlit community:
 
 https://discuss.streamlit.io/t/tga-explorer-treasury-general-account/88087/1
 
+Government efficiency research:
+
+https://x.com/dharmatrade/status/1884018871197487321
