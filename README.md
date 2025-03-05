@@ -24,3 +24,7 @@ https://discuss.streamlit.io/t/tga-explorer-treasury-general-account/88087/1
 Government efficiency research:
 
 https://x.com/dharmatrade/status/1884018871197487321
+
+### Video overview of tga_explorer_diff.py
+
+https://x.com/dharmatrade/status/1897420308526903778
