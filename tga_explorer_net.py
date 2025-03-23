@@ -60,6 +60,8 @@ category = st.sidebar.selectbox(label='transaction_catg', options=df['transactio
 
 # category = 'Agriculture Loan Repayments (misc)'
 
+# category = 'Federal Retirement Thrift Savings Plan'
+
 df = df[df['transaction_catg'] == category]
 
 tmp = df.pivot_table(index='record_date', columns='transaction_type', values=metric)
@@ -76,6 +78,10 @@ tmp = tmp.reset_index()
 tmp['diff'] = tmp['Deposits'] - tmp['Withdrawals']
 
 tmp['Withdrawals'] = -tmp['Withdrawals']
+
+tmp['Deposits']    = tmp['Deposits']    * 1_000_000
+tmp['Withdrawals'] = tmp['Withdrawals'] * 1_000_000
+tmp['diff']        = tmp['diff']        * 1_000_000
 
 fig = px.line(tmp, x='record_date', y=['Deposits', 'Withdrawals', 'diff'], title='TGA')
 
