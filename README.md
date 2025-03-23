@@ -28,3 +28,7 @@ https://x.com/dharmatrade/status/1884018871197487321
 ### Video overview of tga_explorer_diff.py
 
 https://x.com/dharmatrade/status/1897420308526903778
+
+### tga_explorer_net.py
+
+https://x.com/dharmatrade/status/1903902106861584437
